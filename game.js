@@ -95,3 +95,9 @@ function keyUpHandler(event)
 		pressed = false;
 	}
 }
+var createdSnake;
+var main = function()
+{
+    createdSnake = new Snake();
+            
+}
