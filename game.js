@@ -44,52 +44,26 @@ function Snake()
     }
     this.creatept = function(dirpt)
     {
-        if(dirpt == dir.up)
+        if(dirpt == dir.up || dirpt == dir.down)
         {
             //see for validity
-            
-            
-        }
-        else if(dirpt == dir.down)
-        {
-            
-        }
-        else if(dirpt == dir.left)
-        {
-            
+            if(pts[0].dir1 != dir.up || pts[0].dir1 != dir.down)
+            pts.splice(1,0,new turnpt(dirpt, pts[0].x, pts[0].y));            
         }
         else
         {
-            
-        }
-        
+            if(pts[0].dir1 != dir.right || pts[0].dir1 != dir.left)
+            pts.splice(1,0,new turnpt(dirpt, pts[0].x, pts[0].y));            
+        }        
     }
 }
+
 var pressed = false;
+
 function keyDownHandler(event)
 {
-	var keyPressed = String.fromCharCode(event.keyCode);
- 
-	if (keyPressed == "W")
-	{		
-		
-	}
-	else if (keyPressed == "D")
-	{	
-				
-	}
-	else if (keyPressed == "S")
-	{	
-				
-	}
-	else if (keyPressed == "A")
-	{	
-				
-	}
-}
-var pressed = false;
-function keyDownHandler(event)
-{
+    if(pressed == false)
+    {
     pressed = true;
 	var keyPressed = String.fromCharCode(event.keyCode);
  
@@ -99,16 +73,17 @@ function keyDownHandler(event)
 	}
 	else if (keyPressed == "D")
 	{	
-				
+        createdSnake.creatept(dir.right);				
 	}
 	else if (keyPressed == "S")
 	{	
-				
+        createdSnake.creatept(dir.down);				
 	}
 	else if (keyPressed == "A")
 	{	
-				
+        createdSnake.creatept(dir.left);				
 	}
+    }
 }
 function keyUpHandler(event)
 {
