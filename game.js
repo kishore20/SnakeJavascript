@@ -52,9 +52,9 @@ function Snake() {
         return true;
         else if((pt2.dir1 == dir.down || pt2.dir1 == dir.up) && pt1.dir1 == dir.left && pt1.posx < pt2.posx)
         return true;
-        else if((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.up && pt1.posy > pt2.posy)
+        else if((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.up && pt1.posy < pt2.posy)
         return true;
-        else if((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.down && pt1.posy < pt2.posy)
+        else if((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.down && pt1.posy > pt2.posy)
         return true;
         else return false;
     }
