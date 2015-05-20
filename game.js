@@ -22,11 +22,22 @@ function Snake() {
     this.pts = [new turnpt(dir.right, 5, 0), new turnpt(dir.right, 0, 0)];
     this.move = function (deltaT) {
 	//alert('2.move reached');
+        if (38 in keysDown) { // Player holding up
+		this.creatept(dir.up);
+	}
+	if (40 in keysDown) { // Player holding down
+		this.creatept(dir.down);
+	}
+	if (37 in keysDown) { // Player holding left
+		this.creatept(dir.left);
+	}
+	if (39 in keysDown) { // Player holding right
+		this.creatept(dir.left);
+	}
         this.pts[0].update(deltaT);
         this.pts[this.pts.length - 1].update(deltaT);
         //now check for tail point reduce
         if (this.pts.length > 2) {
-
             if (comparepos(this.pts[this.pts.length - 1], this.pts[this.pts.length - 2])) {                
 this.pts = this.pts.slice(0, this.pts.length - 1);
             }
@@ -68,31 +79,6 @@ canvas.width = 512;
 canvas.height = 480;
 document.body.appendChild(canvas);
 
-var pressed = false;
-
-function keyDownHandler(event) {
-    if (pressed == false) {
-
-        pressed = true;
-        var keyPressed = String.fromCharCode(event.keyCode);
-        if (keyPressed == "W") {
-            createdSnake.creatept(dir.up);
-        } else if (keyPressed == "D") {
-            createdSnake.creatept(dir.right);
-        } else if (keyPressed == "S") {
-            createdSnake.creatept(dir.down);
-        } else if (keyPressed == "A") {
-            createdSnake.creatept(dir.left);
-        }
-    }
-}
-
-function keyUpHandler(event) {
-    var keyPressed = String.fromCharCode(event.keyCode);
-    if ((keyPressed == "W") || (keyPressed == "A") || (keyPressed == "S") || (keyPressed == "D")) {
-        pressed = false;
-    }
-}
 
 var createdSnake = null;
 var update = function (deltaT) {
@@ -130,11 +116,18 @@ var main = function () {
 
 
 var then = Date.now();
-reset();
+
+// Handle keyboard controls
+var keysDown = {};
+
 addEventListener("keydown", function (e) {
-	keyDownHandler(e);
+	keysDown[e.keyCode] = true;
 }, false);
+
 addEventListener("keyup", function (e) {
-	keyUpHandler(e);
+	delete keysDown[e.keyCode];
 }, false);
+
+reset();
+
 main();
