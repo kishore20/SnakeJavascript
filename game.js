@@ -4,7 +4,7 @@ var dir = {
     up: 3,
     down: 4
 };
-speed = 20;
+speed = 10;
 
 function turnpt(dir1, posx, posy) {
     this.posx = posx;
@@ -98,14 +98,14 @@ var render = function () {
     ctx.lineWidth = 5;
 
     ctx.beginPath();
-    ctx.moveTo(createdSnake.pts[0].posx * 10, createdSnake.pts[0].posy * 10);
+    ctx.moveTo(createdSnake.pts[0].posx * 10 + 5, createdSnake.pts[0].posy * 10 + 5);
     for (i = 1; i < createdSnake.pts.length; i++) {
-        ctx.lineTo(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10);
+        ctx.lineTo(createdSnake.pts[i].posx * 10 + 5, createdSnake.pts[i].posy * 10 + 5);
     }
     ctx.stroke();
 
     for (i in createdSnake.pts)
-    ctx.fillRect(createdSnake.pts[i].posx * 10 - 5, createdSnake.pts[i].posy * 10 - 5, 10, 10);
+    ctx.fillRect(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10, 10, 10);
 }
 
 var reset = function () {
