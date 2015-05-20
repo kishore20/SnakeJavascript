@@ -1,32 +1,34 @@
-var dir {
+var dir = {
     left: 1,
     right: 2,
     up: 3,
     down: 4
 };
+speed = 5;
 
 function turnpt(dir1, posx, posy) {
-    this.speed = 20;
     this.posx = posx;
     this.posy = posy;
     this.dir1 = dir1;
     this.update = function (deltaT) {
-
-        if (this.dir1 == dir.right) this.posx += speed * deltaT;
-        else if (this.dir1 == dir.left) this.posx -= speed * deltaT;
-        else if (this.dir1 == dir.down) this.posy += speed * deltaT;
-        else this.posy -= speed * deltaT;
+        //alert('3.turning point update reached');
+        if (this.dir1 == dir.right) this.posx = this.posx + speed * deltaT;
+        else if (this.dir1 == dir.left) this.posx = this.posx + speed * deltaT;
+        else if (this.dir1 == dir.down) this.posy = this.posy + speed * deltaT;
+        else this.posy = this.posy + speed * deltaT;
     }
 }
 
 function Snake() {
-    this.pts = [new turnpt(dir.right, 50, 0), new turnpt(dir.right, 0, 0)];
+    this.pts = [new turnpt(dir.right, 5, 0), new turnpt(dir.right, 0, 0)];
     this.move = function (deltaT) {
-        pts[0].update(deltaT);
-        pts[pts.length - 1].update(deltaT);
+        //alert('2.move reached');
+        this.pts[0].update(deltaT);
+        this.pts[this.pts.length - 1].update(deltaT);
         //now check for tail point reduce
-        if (pts.length > 2) {
-            if (comparepos(pts[pts.length - 1], pts[pts.length - 2])) {
+        if (this.pts.length > 2) {
+            //alert('check for redundancy');
+            if (comparepos(this.pts[this.pts.length - 1], this.pts[this.pts.length - 2])) {
                 this.pts.slice(1, this.pts.length - 1);
             }
         }
@@ -59,7 +61,6 @@ ctx.fillStyle = "#FF0000";
 canvas.width = 512;
 canvas.height = 480;
 document.body.appendChild(canvas);
-
 var pressed = false;
 
 function keyDownHandler(event) {
@@ -89,12 +90,20 @@ function keyUpHandler(event) {
 
 var createdSnake = null;
 var update = function (deltaT) {
-    createdSnake.update(deltaT);
+    //alert('1.update reached');
+    createdSnake.move(deltaT);
 }
 
 var render = function () {
-    for (pt in createdSnake.pts)
-    ctx.fillRect(pt.posx * 10, pt.posy * 10, 10, 10);
+    //clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (i in createdSnake.pts)
+    //alert('4.render points reached');
+    ctx.fillRect(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10, 10, 10);
+}
+
+var reset = function () {
+    createdSnake = new Snake();
 }
 
 // Let's play
@@ -112,6 +121,7 @@ var main = function () {
     requestAnimationFrame(main);
 
 }
+
 
 var then = Date.now();
 reset();
