@@ -27,28 +27,31 @@ function Snake() {
         this.pts[this.pts.length - 1].update(deltaT);
         //now check for tail point reduce
         if (this.pts.length > 2) {
-            //alert('check for redundancy');
+
             if (comparepos(this.pts[this.pts.length - 1], this.pts[this.pts.length - 2])) {
-                this.pts.slice(1, this.pts.length - 1);
+                alert('slicing the last one');
+                this.pts = this.pts.slice(0, this.pts.length - 1);
             }
         }
 
     }
-    this.comparepos = function (pt1, pt2) {
+    var comparepos = function (pt1, pt2) {
         if (pt1.posx == pt2.posx && pt1.posy == pt2.posy) return true;
         else return false;
     }
     this.creatept = function (dirpt) {
         if (dirpt == dir.up || dirpt == dir.down) {
             //see for validity
-            if (pts[0].dir1 != dir.up || pts[0].dir1 != dir.down) {
-                pts[0].dir1 = dirpt;
-                pts.splice(1, 0, new turnpt(dirpt, pts[0].x, pts[0].y));
+            if (this.pts[0].dir1 != dir.up && this.pts[0].dir1 != dir.down) {
+                //alert('Inserting at next to head for '+dirpt);
+                this.pts[0].dir1 = dirpt;
+                this.pts.splice(1, 0, new turnpt(dirpt, this.pts[0].posx, this.pts[0].posy));
             }
         } else {
-            if (pts[0].dir1 != dir.right || pts[0].dir1 != dir.left) {
-                pts[0].dir1 = dirpt;
-                pts.splice(1, 0, new turnpt(dirpt, pts[0].x, pts[0].y));
+            if (this.pts[0].dir1 != dir.right && this.pts[0].dir1 != dir.left) {
+                //alert('Inserting at next to head for '+dirpt);
+                this.pts[0].dir1 = dirpt;
+                this.pts.splice(1, 0, new turnpt(dirpt, this.pts[0].posx, this.pts[0].posy));
             }
         }
     }
@@ -61,13 +64,14 @@ ctx.fillStyle = "#FF0000";
 canvas.width = 512;
 canvas.height = 480;
 document.body.appendChild(canvas);
+
 var pressed = false;
 
 function keyDownHandler(event) {
     if (pressed == false) {
+
         pressed = true;
         var keyPressed = String.fromCharCode(event.keyCode);
-
         if (keyPressed == "W") {
             createdSnake.creatept(dir.up);
         } else if (keyPressed == "D") {
@@ -82,7 +86,6 @@ function keyDownHandler(event) {
 
 function keyUpHandler(event) {
     var keyPressed = String.fromCharCode(event.keyCode);
-
     if ((keyPressed == "W") || (keyPressed == "A") || (keyPressed == "S") || (keyPressed == "D")) {
         pressed = false;
     }
@@ -125,4 +128,10 @@ var main = function () {
 
 var then = Date.now();
 reset();
+addEventListener("keydown", function (e) {
+    keyDownHandler(e);
+}, false);
+addEventListener("keyup", function (e) {
+    keyUpHandler(e);
+}, false);
 main();
