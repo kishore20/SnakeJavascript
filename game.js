@@ -52,6 +52,7 @@ function Snake() {
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
+ctx.fillStyle="#FF0000";
 canvas.width = 512;
 canvas.height = 480;
 document.body.appendChild(canvas);
