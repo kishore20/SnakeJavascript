@@ -47,11 +47,16 @@ function Snake() {
 
     }
     var comparepos = function (pt1, pt2) {
-
-        if (pt1.posx == pt2.posx && pt1.posy == pt2.posy) {
-
-            return true;
-        } else return false;
+        //pt1 = last;pt2 = last but one;
+        if((pt2.dir1 == dir.down || pt2.dir1 == dir.up) && pt1.dir1 == dir.right && pt1.posx > pt2.posx)
+        return true;
+        else if((pt2.dir1 == dir.down || pt2.dir1 == dir.up) && pt1.dir1 == dir.left && pt1.posx < pt2.posx)
+        return true;
+        else if((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.up && pt1.posy > pt2.posy)
+        return true;
+        else if((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.down && pt1.posy < pt2.posy)
+        return true;
+        else return false;
     }
     this.creatept = function (dirpt) {
         if (dirpt == dir.up || dirpt == dir.down) {
