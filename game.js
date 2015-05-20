@@ -82,6 +82,8 @@ var ctx = canvas.getContext("2d");
 ctx.fillStyle = "#FF0000";
 canvas.width = 512;
 canvas.height = 480;
+ctx.lineWidth=5;
+ctx.strokeStyle="#FF0000";
 document.body.appendChild(canvas);
 
 
@@ -97,6 +99,14 @@ var render = function () {
     for (i in createdSnake.pts)
     //alert('4.render points reached');
     ctx.fillRect(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10, 10, 10);
+    //rendering lines
+    ctx.beginPath();
+    ctx.moveTo(createdSnake.pts[0].posx,createdSnake.pts[0].posy);
+    for(i = 1; i < createdSnake.pts.length-1; i++)
+    {
+    ctx.lineTo(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10);    
+    }
+    ctx.stroke();
 }
 
 var reset = function () {
