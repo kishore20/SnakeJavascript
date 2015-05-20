@@ -21,7 +21,8 @@ function turnpt(dir1, posx, posy) {
 var busy = false;
 
 function Snake() {
-    this.pts = [new turnpt(dir.right, 5, 0), new turnpt(dir.right, 0, 0)];
+this.length = 10;
+    this.pts = [new turnpt(dir.right, this.length, 0), new turnpt(dir.right, 0, 0)];
     this.move = function (deltaT) {
         busy = true;
         //compute forces
@@ -82,8 +83,6 @@ var ctx = canvas.getContext("2d");
 ctx.fillStyle = "#FF0000";
 canvas.width = 512;
 canvas.height = 480;
-ctx.lineWidth=5;
-ctx.strokeStyle="#FF0000";
 document.body.appendChild(canvas);
 
 
@@ -98,12 +97,11 @@ var render = function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (i in createdSnake.pts)
     //alert('4.render points reached');
-    //ctx.fillRect(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10, 10, 10);
-    //rendering lines
-    
+    ctx.fillRect(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10, 10, 10);
+    //rendering lines    
     ctx.beginPath();
-    ctx.moveTo(createdSnake.pts[0].posx,createdSnake.pts[0].posy);
-    for(i = 1; i < createdSnake.pts.length-1; i++)
+    ctx.moveTo(createdSnake.pts[0].posx*10,createdSnake.pts[0].posy*10);
+    for(i = 1; i < createdSnake.pts.length; i++)
     {
     ctx.lineTo(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10);    
     }
