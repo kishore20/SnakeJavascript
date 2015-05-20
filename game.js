@@ -1,30 +1,32 @@
 enum dir {left, right, up, down};
 function turnpt(dir1, posx, posy)
 {
+    this.speed = 20;
     this.posx = posx;         
     this.posy = posy;
     this.dir1 = dir1;    
     this.front = dir.right;
     this.rear = dir.right;
-    this.update = function(){
+    this.update = function(deltaT){
+        
         if(this.dir1 == dir.right)
-        this.posx++;
+        this.posx += speed*deltaT;
         else if(this.dir1 == dir.left)
-        this.posx--;
+        this.posx -= speed*deltaT;
         else if(this.dir1 == dir.down)
-        this.posy++;
+        this.posy += speed*deltaT;
         else
-        this.posy--;
+        this.posy -= speed*deltaT;
     }
 }
 
 function Snake()
 {
     this.pts = [new turnpt(dir.right, 50, 0), new turnpt(dir.right, 0, 0)];
-    this.move = function()
+    this.move = function(deltaT)
     {
-     pts[0].update();
-     pts[pts.length - 1].update();
+     pts[0].update(deltaT);
+     pts[pts.length - 1].update(deltaT);
      //now check for tail point reduce
      if(pts.length>2)
      {
@@ -57,6 +59,13 @@ function Snake()
         }        
     }
 }
+
+// Create the canvas
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+canvas.width = 512;
+canvas.height = 480;
+document.body.appendChild(canvas);
 
 var pressed = false;
 
@@ -95,9 +104,40 @@ function keyUpHandler(event)
 		pressed = false;
 	}
 }
-var createdSnake;
+
+var createdSnake = null;
+var update = function(deltaT)
+{
+    createdSnake.update(deltaT);
+}
+
+var render = function()
+{
+    for(pt in createdSnake.pts)
+    ctx.fillRect(pt.posx*10, pt.posy*10, 10, 10);
+}
+
+var main = function()
+{
+    //The main game loop
+    var now = Date.now();
+	var delta = now - then;
+
+	update(delta / 1000);
+	render();
+
+	then = now;
+
+	// Request to do this again ASAP
+	requestAnimationFrame(main);
+            
+}
+
+// Let's play
 var main = function()
 {
     createdSnake = new Snake();
-            
 }
+var then = Date.now();
+reset();
+main();
