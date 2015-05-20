@@ -4,7 +4,7 @@ var dir = {
     up: 3,
     down: 4
 };
-speed = 5;
+speed = 20;
 
 function turnpt(dir1, posx, posy) {
     this.posx = posx;
@@ -21,7 +21,7 @@ function turnpt(dir1, posx, posy) {
 var busy = false;
 
 function Snake() {
-this.length = 10;
+    this.length = 10;
     this.pts = [new turnpt(dir.right, this.length, 0), new turnpt(dir.right, 0, 0)];
     this.move = function (deltaT) {
         busy = true;
@@ -49,14 +49,10 @@ this.length = 10;
     }
     var comparepos = function (pt1, pt2) {
         //pt1 = last;pt2 = last but one;
-        if((pt2.dir1 == dir.down || pt2.dir1 == dir.up) && pt1.dir1 == dir.right && pt1.posx > pt2.posx)
-        return true;
-        else if((pt2.dir1 == dir.down || pt2.dir1 == dir.up) && pt1.dir1 == dir.left && pt1.posx < pt2.posx)
-        return true;
-        else if((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.up && pt1.posy < pt2.posy)
-        return true;
-        else if((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.down && pt1.posy > pt2.posy)
-        return true;
+        if ((pt2.dir1 == dir.down || pt2.dir1 == dir.up) && pt1.dir1 == dir.right && pt1.posx > pt2.posx) return true;
+        else if ((pt2.dir1 == dir.down || pt2.dir1 == dir.up) && pt1.dir1 == dir.left && pt1.posx < pt2.posx) return true;
+        else if ((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.up && pt1.posy < pt2.posy) return true;
+        else if ((pt2.dir1 == dir.left || pt2.dir1 == dir.right) && pt1.dir1 == dir.down && pt1.posy > pt2.posy) return true;
         else return false;
     }
     this.creatept = function (dirpt) {
@@ -80,9 +76,9 @@ this.length = 10;
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-ctx.fillStyle = "#FF0000";
-canvas.width = 512;
-canvas.height = 480;
+
+canvas.width = window.innerWidth - 20;
+canvas.height = window.innerHeight - 20;
 document.body.appendChild(canvas);
 
 
@@ -95,17 +91,21 @@ var update = function (deltaT) {
 var render = function () {
     //clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (i in createdSnake.pts)
-    //alert('4.render points reached');
-    ctx.fillRect(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10, 10, 10);
-    //rendering lines    
+    ctx.rect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "#000000";
+    ctx.stroke();
+    ctx.strokeStyle = "#FF0000";
+    ctx.lineWidth = 5;
+
     ctx.beginPath();
-    ctx.moveTo(createdSnake.pts[0].posx*10,createdSnake.pts[0].posy*10);
-    for(i = 1; i < createdSnake.pts.length; i++)
-    {
-    ctx.lineTo(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10);    
+    ctx.moveTo(createdSnake.pts[0].posx * 10, createdSnake.pts[0].posy * 10);
+    for (i = 1; i < createdSnake.pts.length; i++) {
+        ctx.lineTo(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10);
     }
     ctx.stroke();
+
+    for (i in createdSnake.pts)
+    ctx.fillRect(createdSnake.pts[i].posx * 10 - 5, createdSnake.pts[i].posy * 10 - 5, 10, 10);
 }
 
 var reset = function () {
