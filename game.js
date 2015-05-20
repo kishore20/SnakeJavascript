@@ -100,6 +100,7 @@ var render = function () {
     //alert('4.render points reached');
     ctx.fillRect(createdSnake.pts[i].posx * 10, createdSnake.pts[i].posy * 10, 10, 10);
     //rendering lines
+    
     ctx.beginPath();
     ctx.moveTo(createdSnake.pts[0].posx,createdSnake.pts[0].posy);
     for(i = 1; i < createdSnake.pts.length-1; i++)
