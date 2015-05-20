@@ -36,14 +36,12 @@ function Snake() {
     this.creatept = function (dirpt) {
         if (dirpt == dir.up || dirpt == dir.down) {
             //see for validity
-            if (pts[0].dir1 != dir.up || pts[0].dir1 != dir.down) 
-            {
+            if (pts[0].dir1 != dir.up || pts[0].dir1 != dir.down) {
                 pts[0].dir1 = dirpt;
                 pts.splice(1, 0, new turnpt(dirpt, pts[0].x, pts[0].y));
             }
         } else {
-            if (pts[0].dir1 != dir.right || pts[0].dir1 != dir.left) 
-            {
+            if (pts[0].dir1 != dir.right || pts[0].dir1 != dir.left) {
                 pts[0].dir1 = dirpt;
                 pts.splice(1, 0, new turnpt(dirpt, pts[0].x, pts[0].y));
             }
@@ -95,6 +93,7 @@ var render = function () {
     ctx.fillRect(pt.posx * 10, pt.posy * 10, 10, 10);
 }
 
+// Let's play
 var main = function () {
     //The main game loop
     var now = Date.now();
@@ -110,10 +109,6 @@ var main = function () {
 
 }
 
-// Let's play
-var main = function () {
-    createdSnake = new Snake();
-}
 var then = Date.now();
 reset();
 main();
